@@ -18,15 +18,25 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
 
             btnStartService.setOnClickListener {
-                Intent(this@MainActivity, MyIntentService::class.java).also{
+                Intent(this@MainActivity, MyService::class.java).also{
                     startService(it)
                     tvServiceLog.text = "Service running"
                 }
             }
 
             btnStopService.setOnClickListener {
-                MyIntentService.stopService()
-                tvServiceLog.text = "Service stopped"
+                Intent(this@MainActivity, MyService::class.java).also{
+                    stopService(it)
+                    tvServiceLog.text = "Service stopped"
+                }
+            }
+
+            btnSendData.setOnClickListener {
+                Intent(this@MainActivity, MyService::class.java).also {
+                    val dataString = etData.text.toString()
+                    it.putExtra("EXTRA_DATA", dataString)
+                    startService(it)
+                }
             }
 
 
